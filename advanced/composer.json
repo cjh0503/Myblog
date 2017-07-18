@@ -21,7 +21,13 @@
         "ijackua/yii2-lepture-markdown-editor-widget": "dev-master",
         "yidashi/yii2-bootstrap-markdown": "*",
         "arogachev/yii2-tree": "^0.1.0",
-        "yiisoft/yii2-authclient": "~2.1.0"
+        "yiisoft/yii2-authclient": "~2.1.0",
+        "kartik-v/yii2-krajee-base": "dev-master",
+        "kartik-v/yii2-widget-activeform": "@dev",
+        "kartik-v/yii2-helpers": "~1.3",
+        "kartik-v/yii2-grid": "~3.0",
+        "kartik-v/yii2-widgets": "*",
+        "kartik-v/yii2-builder": "^1.6"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
