@@ -4,6 +4,8 @@ namespace frontend\controllers;
 
 use common\models\Posts;
 use common\models\Tag;
+use common\models\Comment;
+use common\models\Reply;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
 
@@ -73,9 +75,16 @@ class PostController extends \yii\web\Controller
     {
         $post = Posts::findOne($id);
         $tags = $post->getTag()->orderBy(['id' => SORT_DESC])->all();
+        $comments = Comment::findcomment($id);
+        $replys = [];
+        foreach ($comments as $comment) {
+            $replys[$comment->id] = Reply::findAll(['comment_id' => $comment->id, 'status' => 1]);
+        }
         return $this->render('item', [
             'post'=>$post,
             'tags' => $tags,
+            'comments' => $comments,
+            'replys' => $replys,
         ]);
     }
 }
