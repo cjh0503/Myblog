@@ -5,6 +5,7 @@ namespace frontend\modules\qqlog\controllers;
 use Yii;
 use common\models\Auth;
 use common\models\User;
+use yii\authclient\AuthAction;
 
 class LoginController extends \yii\web\Controller
 {
@@ -42,7 +43,6 @@ class LoginController extends \yii\web\Controller
                     $password = Yii::$app->security->generateRandomString(6);
                     $user = new User([
                         'username' => $attributes['nickname'],
-                        'email' => '389@qe.com',
                         'password' => $password,
                     ]);
                     $user->generateAuthKey();
@@ -52,7 +52,7 @@ class LoginController extends \yii\web\Controller
                         $auth = new Auth([
                             'user_id' => $user->id,
                             'source' => $client->getId(),
-                            'source_id' => Yii::$app->security->generateRandomString(6),
+                            'source_id' => (string)$attributes['openid'],
                         ]);
                         if ($auth->save()) {
                             $transaction->commit();
@@ -70,7 +70,7 @@ class LoginController extends \yii\web\Controller
                 $auth = new Auth([
                     'user_id' => Yii::$app->user->id,
                     'source' => $client->getId(),
-                    'source_id' => $attributes['id'],
+                    'source_id' => $attributes['openid'],
                 ]);
                 $auth->save();
             }
