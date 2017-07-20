@@ -13,8 +13,8 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $user_id
  * @property string $comment
  * @property integer $status
- * @property integer $create_at
- * @property integer $update_at
+ * @property integer $created_at
+ * @property integer $updated_at
  */
 class Comment extends \yii\db\ActiveRecord
 {
@@ -38,8 +38,8 @@ class Comment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['post_id', 'user_id', 'create_at', 'update_at'], 'required'],
-            [['post_id', 'user_id', 'status', 'create_at', 'update_at'], 'integer'],
+            [['post_id', 'user_id'], 'required'],
+            [['post_id', 'user_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['comment'], 'string', 'max' => 255],
         ];
     }
@@ -55,15 +55,15 @@ class Comment extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'comment' => 'Comment',
             'status' => 'Status',
-            'create_at' => 'Create At',
-            'update_at' => 'Update At',
+            'created_at' => 'Create At',
+            'updated_at' => 'Update At',
         ];
     }
     
     public static function findcomment($id){
-        return self::findAll([
-            'post_id' => $id,
-            'status' => 1,
-        ]);
+        return self::find()
+                ->where(['post_id' => $id, 'status' => 1])
+                ->orderBy(['created_at' => SORT_DESC])
+                ->all();
     }
 }

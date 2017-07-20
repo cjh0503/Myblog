@@ -30,14 +30,18 @@ class Reply extends \yii\db\ActiveRecord
      */
     public function behaviors() {
         return [
-            TimestampBehavior::className(),
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'create_at',
+                'updatedAtAttribute' => 'update_at',
+            ],
         ];
     }
     
     public function rules()
     {
         return [
-            [['comment_id', 'user_id', 'create_at', 'update_at'], 'required'],
+            [['comment_id', 'user_id'], 'required'],
             [['comment_id', 'user_id', 'status', 'create_at', 'update_at'], 'integer'],
             [['reply'], 'string', 'max' => 255],
         ];

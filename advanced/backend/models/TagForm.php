@@ -21,7 +21,7 @@ class TagForm extends Model
         if ($this->validate()) {
             $uploadPath = 'uploads/' . md5(microtime()) . '.' . $this->tag_img->extension;
             $this->tag_img->saveAs($uploadPath);
-            return Url::to('advanced/backend/web/' . $uploadPath, true);
+            return Url::to('Myblog/advanced/backend/web/' . $uploadPath, true);
         } else {
             return false;
         }

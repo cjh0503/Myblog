@@ -6,11 +6,12 @@ use common\widgets\HelloWidget;
 $this->title = '博客首页-上榴人士';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>上榴人士</h1>
-<div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-8"></div>
-</div>
-<div class="panel panel-default">
+<style type="text/css">
+    .badge { background-color: #337ab7;}
+</style>
+<h1>???</h1>
+
+<div class="panel panel-default col-md-9">
     <div class="panel-heading">
         <?= HelloWidget::widget(['message' => '文章']); ?>
     </div>
@@ -37,4 +38,13 @@ $this->params['breadcrumbs'][] = $this->title;
         echo LinkPager::widget(['pagination' => $pages,]);
         ?>
     </div>
+</div>
+<div class="col-md-3">
+    <h3>标签</h3>
+    <?php foreach($tags as $tag) {?>
+<a class="label label-primary"  href="<?php echo Url::toRoute(['post/index', 'id' => $tag['id'],]); ?>">
+    <?php echo $tag['tag']; ?> &nbsp;<span class="badge"><?php echo $num[$tag['id']]; ?></span>
+</a>
+    &nbsp;
+    <?php } ?>
 </div>

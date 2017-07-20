@@ -6,6 +6,7 @@ use common\models\Posts;
 use common\models\Tag;
 use common\models\Comment;
 use common\models\Reply;
+use common\models\User;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
 
@@ -21,7 +22,7 @@ class PostController extends \yii\web\Controller
                     [
                         'allow' => true,
                         'actions' => ['item'],
-                        'roles' => ['@'],//@代表已认证用户
+                        'roles' => ['?'],//@代表已认证用户
                     ],
                 ],
             ],
@@ -63,10 +64,16 @@ class PostController extends \yii\web\Controller
         $models = $posts->offset($pages->offset)
         ->limit($pages->limit)
         ->all();
+        
+        $tag = new Tag();
+        $tags = $tag->getAllTag();
+        $num = $tag->getPostsNum();
         //渲染视图
         return $this->render('index',[
             'models' => $models,
-            'pages' => $pages
+            'pages' => $pages,
+            'tags' => $tags,
+            'num' => $num,
         ]);
     }
     
@@ -80,11 +87,15 @@ class PostController extends \yii\web\Controller
         foreach ($comments as $comment) {
             $replys[$comment->id] = Reply::findAll(['comment_id' => $comment->id, 'status' => 1]);
         }
+        
+        //$user = new User();
+        //$users = $user->getUsernameBy($comments, $replys);
         return $this->render('item', [
             'post'=>$post,
             'tags' => $tags,
             'comments' => $comments,
             'replys' => $replys,
+//            'users' => $users,
         ]);
     }
 }

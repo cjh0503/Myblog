@@ -10,7 +10,7 @@ class CommentController extends Controller
 {
     public function actionAdd($id)
     {
-        if(Yii::$app->user->isGuest){
+        if(!Yii::$app->user->isGuest){
             $comment = new Comment();
             $comment->user_id = Yii::$app->user->identity->id;
             $comment->post_id = $id;
@@ -19,6 +19,8 @@ class CommentController extends Controller
                 return $this->redirect(Yii::$app->request->referrer);
             }
             echo "string";
+        } else {
+            echo '请先登录';
         }
     }
 }
