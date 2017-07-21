@@ -121,19 +121,11 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public function getUsernameBy($comments,$replys)
+    public function getUsernameBy($user,$comments)
     {
-        $user = [];
         foreach ($comments as $comment) {
             if($info = self::findIdentity($comment->user_id)) {
                 $user['comment'][$comment->id] = $info->username;
-            }
-        }
-        foreach ($replys as $reply) {
-            if(!$reply[]){
-                if($info = self::findIdentity($reply['user_id'])) {
-                $user['reply'][$reply['id']] = $info->username;
-                }
             }
         }
         return $user;

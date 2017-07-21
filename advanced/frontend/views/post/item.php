@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </a>
         <div class="media-body">
             
-            <h6 class="media-heading" style="color: #d32 !important;margin-bottom: 15px;"><?php ?></h6>
+            <h5 class="media-heading" style="margin-bottom: 12px;"><?php echo $users['comment'][$comment->id];?></h5>
             <?php echo yii\helpers\Markdown::process($comment->comment, 'gfm'); ?>
             
             <small>
@@ -64,9 +64,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <a class="reply" href="javascript:void(0)" style="margin-left: 30px;"onclick="reply(this,<?php echo $comment->id;?>)">回复</a>
             </small>
             
+            <!--回复-->
             <?php if ($reply = $replys[$comment->id]){
                     foreach($reply as $reply){ ?>
                 <div class="media media-reply">
+                    <h5><?php echo $users['reply'][$reply->id]; ?></h5>
                     <?php echo yii\helpers\Markdown::process($reply->reply, 'gfm'); ?>
                     <small><?php echo date("Y-m-d H:i", $reply->create_at); ?></small>
                 </div>

@@ -22,7 +22,7 @@ class PostController extends \yii\web\Controller
                     [
                         'allow' => true,
                         'actions' => ['item'],
-                        'roles' => ['?'],//@代表已认证用户
+                        'roles' => ['@'],//@代表已认证用户
                     ],
                 ],
             ],
@@ -84,18 +84,24 @@ class PostController extends \yii\web\Controller
         $tags = $post->getTag()->orderBy(['id' => SORT_DESC])->all();
         $comments = Comment::findcomment($id);
         $replys = [];
+        $user = [];
         foreach ($comments as $comment) {
-            $replys[$comment->id] = Reply::findAll(['comment_id' => $comment->id, 'status' => 1]);
+            $replys[$comment->id] = Reply::findAll(['comment_id' => $comment->id, 'status' => 1]);//组成评论回复数组
+            foreach ($replys as $key => $val) {
+               foreach ($val as $val) {
+                   $user['reply'][$val->id] = User::findIdentity($val->user_id)->username;//组成回复用户名数组
+               }
+            }
         }
         
-        //$user = new User();
-        //$users = $user->getUsernameBy($comments, $replys);
+        $model = new User();
+        $user = $model->getUsernameBy($user, $comments);
         return $this->render('item', [
             'post'=>$post,
             'tags' => $tags,
             'comments' => $comments,
             'replys' => $replys,
-//            'users' => $users,
+            'users' => $user,
         ]);
     }
 }
