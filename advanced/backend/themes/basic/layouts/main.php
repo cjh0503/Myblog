@@ -42,6 +42,7 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'HHome', 'url' => ['/site/index']],
+        ['label' => '权限', 'url' => ['/admin/default']],
         ['label' => '文章', 'url' => ['/post/index']],
         ['label' => '标签', 'url' => ['/tag/index']],
     ];

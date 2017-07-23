@@ -15,6 +15,17 @@ return [
         'sales' => [
             'class' => 'backend\modules\Sales\Sales',
         ],
+        'admin' => [
+            'class' => 'mdm\admin\Module',
+            'layout' => 'left-menu',//yii2-admin导航菜单
+        ],
+    ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            'site/*',
+            'admin/*',
+        ],
     ],
     'components' => [
         'view' => [
@@ -25,6 +36,9 @@ return [
                     '@app/views' => '@app/themes/basic',
                 ],
             ],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
         ],
         'request' => [
             'csrfParam' => '_csrf-backend',
@@ -50,14 +64,18 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => false,
             'showScriptName' => false,
+            'suffix' => '',
             'rules' => [
+                "<controller:\w+>/<id:\d+>" => "<controller>/view",
+                "<controller:\w+>/<action:\w+>" => "<controller>/<action>",
             ],
         ],
-        */
+        
     ],
     'params' => $params,
 ];

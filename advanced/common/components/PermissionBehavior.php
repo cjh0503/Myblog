@@ -31,5 +31,8 @@ class PermissionBehavior extends Behavior
         $access = $controller."::".$action;  //权限name
         
         /* @var yii\rbac\DbManager $auth */
+        $auth = Yii::$app->authManager;
+        
+        
     }
 }

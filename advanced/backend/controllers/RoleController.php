@@ -6,6 +6,7 @@ use Yii;
 use backend\models\RoleForm;
 use backend\models\AuthItem;
 use yii\rbac\Role;
+use yii\rbac\Item;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -38,7 +39,7 @@ class RoleController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => AuthItem::find(),
+            'query' => AuthItem::find()->where(['type' => Item::TYPE_ROLE]),
         ]);
 
         return $this->render('index', [
@@ -89,8 +90,16 @@ class RoleController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        /*
+         * 修改
+         * param string $name 修改的角色名
+         * param object $role 提交上的数据
+         */
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $role = new Role();
+            $role->name = $model->name;
+            $role->type = $model->type;
+            Yii::$app->authManager->update($id,$role);
             return $this->redirect(['view', 'id' => $model->name]);
         } else {
             return $this->render('update', [
@@ -107,8 +116,19 @@ class RoleController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        /*
+         *  param string $name 角色名
+         */
+        $role = Yii::$app->authManager->getRole($id);//获取当前角色对象
+        //Return the child roles
+        $childAll = Yii::$app->authManager->getChildren($id);
+        if (isset($childAll)) { //逐一删除权限
+            foreach ($childAll as $value) {
+                $perObj = Yii::$app->authManager->getPermission($value);
+                Yii::$app->authManager->removeChild( $role, $perObj);
+            }
+        }
+        Yii::$app->authManager->remove($role);
         return $this->redirect(['index']);
     }
 

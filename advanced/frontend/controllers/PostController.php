@@ -15,17 +15,17 @@ class PostController extends \yii\web\Controller
     public function behaviors()
     {
         return [   //允许已认证用户执行item动作
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['item'],//指对item方法起作用
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['item'],
-                        'roles' => ['@'],//@代表已认证用户
-                    ],
-                ],
-            ],
+//            'access' => [
+//                'class' => AccessControl::className(),
+//                'only' => ['item'],//指对item方法起作用
+//                'rules' => [
+//                    [
+//                        'allow' => true,
+//                        'actions' => ['item'],
+//                        'roles' => ['@'],//@代表已认证用户
+//                    ],
+//                ],
+//            ],
         ];
     }
 
