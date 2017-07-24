@@ -85,6 +85,10 @@ return [
         'qqlog' => [
             'class' => 'frontend\modules\qqlog\qqLog',
         ],
+        'admin' => [
+            'class' => 'frontend\modules\admin\admin',
+        ],
     ],
+    
     'params' => $params,
 ];
