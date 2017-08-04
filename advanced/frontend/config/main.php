@@ -14,6 +14,12 @@ return [
     'controllerMap' => [
         'tree' => 'arogachev\tree\controllers\TreeController',
     ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            
+        ],
+    ],
     'components' => [
         'authClientCollection' => [
             'class' => 'yii\authclient\Collection',
@@ -43,6 +49,7 @@ return [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest'],    
         ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -68,14 +75,16 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                "<controller:\w+>/<id:\d+>" => "<controller>/view",
+                "<controller:\w+>/<action:\w+>" => "<controller>/<action>",
             ],
         ],
-        */
+        
     ],
     'modules' => [
         //test模块
@@ -86,7 +95,8 @@ return [
             'class' => 'frontend\modules\qqlog\qqLog',
         ],
         'admin' => [
-            'class' => 'frontend\modules\admin\admin',
+            'class' => 'mdm\admin\Module',
+            'layout' => 'left-menu',
         ],
     ],
     

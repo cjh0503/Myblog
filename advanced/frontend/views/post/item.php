@@ -1,11 +1,14 @@
 <?php
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 $this->title = $post->title;
 $this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+
 <style type="text/css">
     .media-reply {margin-left: 30px;}
 </style>
@@ -35,18 +38,20 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= Html::endForm(); ?>
 <hr>
 <br>
+
 <div class="hidden" id="reply">
-    <?= Html::beginForm(['reply/add'], 'post') ?>
+    <?= Html::beginForm(['reply/add'], 'post', ['id' => 'replyform']) ?>
     <?= Html::hiddenInput('comment_id', 0, ['id' => 'comment_id'])?>
     <?= yidashi\markdown\Markdown::widget(['name' => 'reply', 'language' => 'zh'])?>
     <br>
-    <?= Html::submitButton('提交', ['class' => 'btn btn-primary']) ?>
+    <?= Html::submitButton('提交', ['class' => 'btn btn-primary', 'id' => 'replycommit']) ?>
     <a class="retract" href="javascript:viod(0)" style="float: right;">收起</a>
     <?= Html::endForm(); ?>
 </div>
 
+
 <!-- 评论 -->
-<ul class="media-list">
+<ul class="media-list" id="commentfield">
 <?php foreach ($comments as $comment){?>
     
 
@@ -67,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <!--回复-->
             <?php if ($reply = $replys[$comment->id]){
                     foreach($reply as $reply){ ?>
-                <div class="media media-reply">
+                <div class="media media-reply" id="replycontent">
                     <h5><?php echo $users['reply'][$reply->id]; ?></h5>
                     <?php echo yii\helpers\Markdown::process($reply->reply, 'gfm'); ?>
                     <small><?php echo date("Y-m-d H:i", $reply->create_at); ?></small>
@@ -89,7 +94,19 @@ $this->params['breadcrumbs'][] = $this->title;
         $(reply).after($('#reply'));
     }
     
+    //收起回复
     $('.retract').click(function(){
         $('#reply').addClass('hidden');
     });
+    
+//    $('#replycommit').click(function() {
+//        $.ajax({
+//            url: $('replyform').attr('action'),//.attr()获取属性值
+//            type: 'post',
+//            data: $('replyform').serialize(),
+//            success: function(result){
+//                $('#replycontent').text(result);
+//            }
+//        });
+//    });
 </script>

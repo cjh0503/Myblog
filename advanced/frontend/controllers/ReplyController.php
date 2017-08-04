@@ -15,8 +15,8 @@ Class ReplyController extends \yii\web\Controller
             $reply->reply = Yii::$app->request->post('reply');
             if($reply->save()){
                 return $this->redirect(Yii::$app->request->referrer);
+                //echo Yii::$app->request->referrer;
             }
-            echo "string";
         } else {
             echo "请先登录";
         }

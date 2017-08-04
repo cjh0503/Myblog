@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style type="text/css">
     .QQ {
-        background:url(assets/ee55341c/QQ.jpg) no-repeat;
+        background:url(../assets/ee55341c/QQ.jpg) no-repeat;
     }
 </style>
 <div class="site-login">

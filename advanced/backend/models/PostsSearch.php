@@ -41,7 +41,8 @@ class PostsSearch extends Posts
      */
     public function search($params)
     {
-        $query = Posts::find();
+        $condition = [['<', '{{%Posts}}.created_at', date('Y-m-d 23:59', strtotime($this->date_to))]];
+        $query = Posts::find()->where($condition);
 
         // add conditions that should always apply here
 
