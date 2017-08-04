@@ -67,8 +67,8 @@ return [
         
         'urlManager' => [
             'enablePrettyUrl' => true,
-            'enableStrictParsing' => false,
-            'showScriptName' => false,
+            'enableStrictParsing' => false, //是否严格解释路由
+            'showScriptName' => false,   //是否显示入口脚本
             'suffix' => '',
             'rules' => [
                 "<controller:\w+>/<id:\d+>" => "<controller>/view",
